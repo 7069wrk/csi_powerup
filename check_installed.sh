@@ -1,12 +1,16 @@
 #!/bin/bash
 
 # Log file
-log_file="installed_log.txt"
-log_file="installed_core_log.txt"
+log0_file="not_installed_log.txt"
+log1_file="installed_log.txt"
 
 # Function to log messages
-log_message() {
-    echo "$(date) - $1" >> "$log_file"
+log0_message() {
+    echo "$(date) - $1" >> "$log0_file"
+}
+
+log1_message() {
+    echo "$(date) - $1" >> "$log1_file"
 }
 
 # Function to trim whitespace
@@ -18,7 +22,8 @@ trim() {
 }
 
 # Check if log file exists, if not create one
-touch "$log_file"
+touch "$log0_file"
+touch "$log1_file"
 
 # count the number of lines in app list
 total_lines=$(wc -l < "all_apps.txt")
@@ -41,11 +46,13 @@ while IFS= read -r app_name || [[ -n "$app_name" ]]; do
     if dpkg -s "$app_name" >/dev/null 2>&1; then
     #if dpkg -l | grep "^ii" | grep -q "$app_name"; then
         echo "($current_line/$total_lines) - $app_name is already installed."
-        log_message "($current_line/$total_lines) - $app_name is already installed."
+        log1_message "($current_line/$total_lines) - $app_name is already installed."
+        ((current_line++))
         ((installed_count++))
     else
         echo "($current_line/$total_lines) - $app_name is not installed."
-        log_message "($current_line/$total_lines) - $app_name is not installed."
+        log0_message "($current_line/$total_lines) - $app_name is not installed."
+        ((current_line++))
         ((not_installed_count++))
     fi
 
