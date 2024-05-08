@@ -762,7 +762,7 @@ cd /tmp
 # unredactedmagazine
 
 # Main script logic
-sudo -k
+sudo -k	### Invalidate timestamp file
 for option in "${powerup_options[@]}"; do
     echo "Processing option: $option"
     case $option in
@@ -884,7 +884,7 @@ for option in "${powerup_options[@]}"; do
   		# cis_lvl_1 $key
 		echo $key | sudo -S ssh-keygen -A
     		reset_DNS
-  		sudo -k
+  		sudo -k	### Invalidate timestamp file
 		;;
         "csi-linux-themes")
 		cd /tmp
@@ -938,7 +938,7 @@ for option in "${powerup_options[@]}"; do
 		    echo "Plymouth theme not found: $PLYMOUTH_THEME_PATH"
 		fi
 		echo $key | sudo -S update-initramfs -u
-    		sudo -k
+    		sudo -k	### Invalidate timestamp file
 		;;
         "os-update")
            	echo "Updating operating system..."
